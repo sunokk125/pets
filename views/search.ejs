@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>PETS</title>
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+
+        function toUser(uId) {
+            var userForm = document.createElement('form');
+            userForm.setAttribute('method', 'post');
+            userForm.setAttribute('action', '/users');
+
+            var uIdInput = document.createElement('input');
+            uIdInput.setAttribute('name', 'uId');
+            uIdInput.setAttribute('value', uId);
+
+            userForm.appendChild(uIdInput);
+
+            document.getElementsByTagName('body')[0].appendChild(userForm);
+
+            userForm.submit();
+        }
+
+        function searchUser() {
+            $.ajax({
+                type : 'POST',
+                dataType : 'json',
+                url : '/users/search',
+                data : {"searchEmail": $('#search').val()},
+                success : function (data) {
+                    if(data.search){
+                        $('#searchDiv').empty();
+                        data.udata.forEach(function (item, index) {
+                            console.log(item);
+                            $('#searchDiv').append('<div id="searchItem' + index + '" onclick="toUser(' + item.uid + ')"><div/>');
+                            $('#searchItem' + index).append('<img class="searchItem" src="/uploads/' + item.uimage + '">');
+                            $('#searchItem' + index).append('<span>' + item.uname + '</span>');
+                            $('#searchItem' + index).append('<span>' + item.uemail + '</span>');
+                        })
+                    }else{
+                        $('#searchDiv').empty();
+                        $('#searchDiv').html('검색하신 이메일이 없습니다.');
+                    }
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <div id="GNB">
+        <div id="nav">
+            <a href="/"><div id="logo">PETS</div></a>
+            <input type="text" id="search" value="검색" onkeyup="searchUser()">
+            <a href="#"> <img src="/images/notification.png" id="bell"></a>
+            <a href="/users"> <img src="/images/dog2.png" id="user"></a>
+        </div>
+    </div>
+    <div id="searchDiv">
+        이메일을 정확히 입력해주세요
+    </div>
+</body>
+</html>
+<style>
+    body {
+        background: #fafafa;
+        margin: 0;
+        padding: 0;
+    }
+
+    img{border: 0;}
+
+    #GNB{
+        width: 100%;
+        height: 80px;
+        text-align: center;
+        border-bottom: 1px solid #CCCCCC;
+        background-color:#3897f0;
+    }
+
+    #nav{
+        margin-top: 0px;
+        width: 900px;
+        height: 24px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    #GNB #logo{
+        float: left;
+        font-family: 'Anton', sans-serif;
+        font-size: 60px;
+        color: white;
+    }
+    #GNB #bell{float: right; margin-top: 30px; width: 24px; height: 24px;}
+    #GNB #user{float: right; margin-top: 30px; margin-right: 50px; width: 24px; height: 24px;}
+    #GNB #nav .search{margin-top: 24px; width: 30px; height: 30px;}
+    #search{
+        margin-top: 0px;
+        height: 24px;
+        border-top:0;
+        border-right:0;
+        border-left:0;
+        border-bottom: 1px solid #CCCCCC;
+        padding-left: 10px;
+        margin-left: 10px;
+    }
+
+    header{
+        width: 100%;
+        text-align: center;
+    }
+
+    #profile{
+        width: 900px;
+        padding-top: 30px;
+        display: inline-block;
+        text-align: left;
+        padding-bottom: 30px;
+        border-bottom:1px solid #cccccc;
+    }
+    #profileLine{display: flex;}
+    #profileImg img{width: 250px; height:250px;}
+    #profileInfo{margin-left: 40px; padding-top: 50px; }
+
+    #firstLine span{font-size: 32px; margin-right:20px;}
+    #firstLine button{
+        width:150px;
+        background-color: white;
+        border-radius: 5px;
+        border:2px solid #cccccc;
+    }
+
+    #follow{list-style: none;}
+    #follow li{display:inline-block; margin-right: 30px;}
+
+    #userId{}
+
+    #followBox{
+        list-style: none;
+        width:100%;
+        border-bottom:1px solid #cccccc;
+        text-align: center;
+    }
+    #followBox li{
+        display:inline-block;
+        width:30%;
+        padding-bottom: 10px;
+    }
+
+    section{
+        width: 100%;
+        text-align: center;
+    }
+
+    #post ul{list-style: none;}
+    #post ul li{
+        display: inline-block;
+        border-bottom: 1px solid #cccccc;
+        width: 100px;
+        height:30px;
+        font-weight: bold;
+        padding:10px 0;
+    }
+
+    #postBoxOutLine{
+        width: 100%;
+        text-align: center;
+    }
+
+    #postBoxInLine{
+        width:60%;
+        display: inline-block;
+        background-color: white;
+        padding:10px 0;
+    }
+
+    .searchItem{
+        width: 50px;
+        height: 50px;
+    }
+
+    #postImg{ margin:10px;display: inline-block;}
+    #postImg img{width: 200px; height: 200px; text-align:left;}
+
+    @media screen and (max-width: 767px){
+        aside{visibility: hidden;}
+        #logo{margin-left: 20px;}
+        #nav{width: 100%;}
+        #nav #bell{margin-right: 20px;}
+        #post ul li span{display:none;}
+        #profileImg img{width:150px; height:150px;}
+        #follow{display: none;}
+    }
+    @media screen and (min-width: 768px) and (max-width: 991px){
+        aside{visibility: hidden;}
+        #logo{margin-left: 20px;}
+        #nav{width: 100%;}
+        #nav #bell{margin-right: 20px;}
+        #post ul li span{display:none;}
+        #profileImg img{width:150px; height:150px;}
+        #follow{display: none;}
+    }
+    @media screen and (min-width: 992px) {
+        #followBox{display:none;}
+    }
+
+
+</style>

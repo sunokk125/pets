@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>PETS</title>
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+        function toDetail(pid) {
+            location.href = "/posts?pId=" + pid;
+        }
+
+        function beFriend(uId) {
+            $.ajax({
+                type : 'POST',
+                dataType : 'json',
+                url : '/users/friend',
+                data : {"uId": uId},
+                success : function (data) {
+                    if (data.result) {
+                        $("#functionBtn").html('언팔로우');
+                    } else {
+                        $("#functionBtn").html('팔로우');
+                    }
+                }
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+    <div id="GNB">
+        <div id="nav">
+            <a href="/"><div id="logo">PETS</div></a>
+            <a href="#"> <img src="/images/search.png" class="search" onclick="location.href='/users/search';"></a>
+            <a href="#"> <img src="/images/notification.png" id="bell"></a>
+            <a href="/users"> <img src="/images/dog2.png" id="user"></a>
+        </div>
+    </div>
+
+    <header>
+        <div id="profile">
+            <div id="profileLine">
+                <div id="profileImg">
+                    <%if(udata.uimage){%>
+                        <img src="/uploads/<%=udata.uimage%>">
+                    <%}else{%>
+                        <img src="/images/usermain.png">
+                    <%}%>
+                </div>
+                <div id="profileInfo">
+                    <div id="firstLine">
+                        <span><%=udata.uname%></span>
+                        <% if(friend == 'mypage'){%>
+                            <button id="functionBtn" onclick="location.href='/users/modify'">프로필 편집</button>
+                        <%}else if(friend){%>
+                            <button id="functionBtn" onclick="beFriend(<%=udata.uid%>)">언팔로우</button>
+                        <%}else{%>
+                            <button id="functionBtn" onclick="beFriend(<%=udata.uid%>)">팔로우</button>
+                        <%}%>
+                    </div>
+                    <ul id="follow">
+                        <li>게시물 <%=data.length%></li>
+                        <li>팔로워 <%=follower%></li>
+                        <li>팔로우 <%=follow%></li>
+                    </ul>
+                    <div id="userId">
+                        <span><%=udata.utext%></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <ul id="followBox">
+        <li>게시물 <%=data.length%></li>
+        <li>팔로워 <%=follower%></li>
+        <li>팔로우 <%=follow%></li>
+    </ul>
+
+    <section>
+        <div id="post">
+            <ul>
+               <li><img src="/images/pet.png"><span>  펫정보</span></li>
+                <li><img src="/images/app.png"><span>  게시물</span></li>
+                <li><img src="/images/share.png"><span>  공유하기</span></li>
+            </ul>
+            <div id="postBoxOutLine">
+                <div id="postBoxInLine">
+                    <%for(var i = 0; i < data.length; i++){%>
+                        <div id="postImg" onclick="toDetail(<%=data[i].pid%>)"><img src="/uploads/<%=data[i].image[0].image%>"> </div>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</body>
+
+</html>
+<style>
+    body {
+        background: #fafafa;
+        margin: 0;
+        padding: 0;
+    }
+
+    img{border: 0;}
+
+    #GNB{
+        width: 100%;
+        height: 80px;
+        text-align: center;
+        border-bottom: 1px solid #CCCCCC;
+        background-color:#3897f0;
+    }
+
+    #nav{
+        margin-top: 0px;
+        width: 900px;
+        height: 24px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    #GNB #logo{
+        float: left;
+        font-family: 'Anton', sans-serif;
+        font-size: 60px;
+        color: white;
+    }
+    #GNB #bell{float: right; margin-top: 30px; width: 24px; height: 24px;}
+    #GNB #user{float: right; margin-top: 30px; margin-right: 50px; width: 24px; height: 24px;}
+    #GNB #nav .search{margin-top: 24px; width: 30px; height: 30px;}
+    #search{
+        margin-top: 0px;
+        height: 24px;
+        border-top:0;
+        border-right:0;
+        border-left:0;
+        border-bottom: 1px solid #CCCCCC;
+        padding-left: 10px;
+        margin-left: 10px;
+    }
+
+    header{
+        width: 100%;
+        text-align: center;
+    }
+
+    #profile{
+        width: 900px;
+        padding-top: 30px;
+        display: inline-block;
+        text-align: left;
+        padding-bottom: 30px;
+        border-bottom:1px solid #cccccc;
+    }
+    #profileLine{display: flex;}
+    #profileImg img{width: 250px; height:250px;}
+    #profileInfo{margin-left: 40px; padding-top: 50px; }
+
+    #firstLine span{font-size: 32px; margin-right:20px;}
+    #firstLine button{
+        width:150px;
+        background-color: white;
+        border-radius: 5px;
+        border:2px solid #cccccc;
+    }
+
+    #follow{list-style: none;}
+    #follow li{display:inline-block; margin-right: 30px;}
+
+    #userId{}
+
+    #followBox{
+        list-style: none;
+        width:100%;
+        border-bottom:1px solid #cccccc;
+        text-align: center;
+    }
+    #followBox li{
+        display:inline-block;
+        width:30%;
+        padding-bottom: 10px;
+    }
+
+    section{
+        width: 100%;
+        text-align: center;
+    }
+
+    #post ul{list-style: none;}
+    #post ul li{
+        display: inline-block;
+        border-bottom: 1px solid #cccccc;
+        width: 100px;
+        height:30px;
+        font-weight: bold;
+        padding:10px 0;
+    }
+
+    #postBoxOutLine{
+        width: 100%;
+        text-align: center;
+    }
+
+    #postBoxInLine{
+        width:60%;
+        display: inline-block;
+        background-color: white;
+        padding:10px 0;
+    }
+
+    #postImg{ margin:10px;display: inline-block;}
+    #postImg img{width: 200px; height: 200px; text-align:left;}
+
+    @media screen and (max-width: 767px){
+        aside{visibility: hidden;}
+        #logo{margin-left: 20px;}
+        #nav{width: 100%;}
+        #nav #bell{margin-right: 20px;}
+        #nav input{display: none;}
+        #post ul li span{display:none;}
+        #profileImg img{width:150px; height:150px;}
+        #follow{display: none;}
+    }
+    @media screen and (min-width: 768px) and (max-width: 991px){
+        aside{visibility: hidden;}
+        #logo{margin-left: 20px;}
+        #nav{width: 100%;}
+        #nav #bell{margin-right: 20px;}
+        #post ul li span{display:none;}
+        #profileImg img{width:150px; height:150px;}
+        #follow{display: none;}
+    }
+    @media screen and (min-width: 992px) {
+        #followBox{display:none;}
+    }
+
+
+</style>

@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>PETS</title>
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script>
+        function like(pid) {
+            $.ajax({
+                type : 'POST',
+                dataType : 'json',
+                url : '/posts/like',
+                data : {"pId" : pid},
+                success : function (data) {
+                    if (data.like) {
+                        $('#like').attr("src", "/images/like_red.png");
+                    } else {
+                        $('#like').attr("src", "/images/like.png");
+                    }
+                }
+            });
+        }
+
+        function comentsubmit(pId) {
+            var cText = $('#comentBox').val();
+
+            $.ajax({
+                type : 'POST',
+                dataType : 'json',
+                url : '/posts/coment',
+                data : {"pId" : pId, cText: cText},
+                success : function (data) {
+                    if (data.result) {
+                        alert("aa");
+                    } else {
+                        alert("bb");
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+<div id="GNB">
+    <div id="nav">
+        <a href="/"><div id="logo">PETS</div></a>
+        <div id="glass"><img src="/images/search.png" class="search" onclick="location.href='/users/search';"></div>
+        <a href="#"> <img src="/images/notification.png" id="bell"></a>
+        <a href="/users"> <img src="/images/dog2.png" id="user"></a>
+    </div>
+</div>
+<div id="main">
+
+    <div id="wrap">
+        <section>
+            <div id="userInfo">
+                <%if(data.uimage){%>
+                    <img src="/uploads/<%=data.uimage%>">
+                <%}else{%>
+                    <img src="/images/usermain.png">
+                <%}%>
+                <span><%=data.uname%></span>
+            </div>
+            <div><%=data.ptext%></div>
+            <article>
+                <div id="keyimage" class="carousel slide imgsize" data-interval="0">
+                    <ol class="carousel-indicators">
+                        <%for(var j = 0; j < data.images.length; j++){%>
+                            <li data-target="#keyimage" data-slide-to="<%=j%>" <% if(j==0){%>class="active"><%}%></li>
+                        <%}%>
+                    </ol>
+
+                    <div class="carousel-inner" role="listbox">
+                        <%for(var j = 0; j < data.images.length; j++){%>
+                            <div class="item <% if(j==0){%>active<%}%>">
+                                <img src="/uploads/<%=data.images[j].image%>" class="imgsize">
+                            </div>
+                        <%}%>
+                    </div>
+
+                    <a class="left carousel-control" href="#keyimage" data-slide="prev">
+    	                    <span class="icon-prev">
+                    </a>
+                    <a class="right carousel-control" href="#keyimage" data-slide="next">
+    	                    <span class="icon-next">
+                    </a>
+                </div>
+            </article>
+            <div id="coment">
+                <ul>
+                    <% if(data.like){%>
+                        <li><img src="/images/like_red.png" id="like" onclick="like(<%=data.pid%>)"></li>
+                    <%}else{%>
+                        <li><img src="/images/like.png" id="like" onclick="like(<%=data.pid%>)"></li>
+                    <%}%>
+                    <li><img src="/images/coment.png"></li>
+                    <li><img src="/images/share.png"></li>
+                </ul>
+                <%for(var j=0; j<data.coments.length; j++){%>
+                    <div id="coments">
+                        <%if(data.coments[j].uimage){%>
+                            <img class="userimage" src="/uploads/<%=data.coments[j].uimage%>">
+                        <%}else{%>
+                            <img class="userimage" src="/images/usermain.png">
+                        <%}%>
+                        <span><%=data.coments[j].uname%></span><span class="coment"><%=data.coments[j].ctext%></span>
+                    </div><br>
+                <%}%>
+                <input type="text" placeholder="댓글 쓰기" id="comentBox" class="comentBox"><img id="comentsubmit" src="/images/send.png" onclick="comentsubmit(<%=data.pid%>)">
+            </div>
+        </section>
+    </div>
+    <aside>
+        <p>유기견 보호</p>
+        <div id="dogImg"><img src="/images/dog.jpg"></div>
+        <div id="article">
+            <p>이름 : 멍멍이</p>
+        </div>
+    </aside>
+</div>
+<footer></footer>
+</body>
+</html>
+<style>
+    body {
+        background: #fafafa;
+        margin: 0;
+        padding: 0;
+    }
+    
+    img{border: 0;}
+
+    input:focus {
+        outline: none;
+    }
+
+    button:focus {
+        outline: none;
+    }
+
+    #imageInput{
+        display: none;
+    }
+
+    #GNB{
+        width: 100%;
+        height: 80px;
+        text-align: center;
+        border-bottom: 1px solid #CCCCCC;
+        background-color:#3897f0;
+    }
+
+    #nav{
+        margin-top: 0px;
+        width: 900px;
+        height: 24px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    #GNB #logo{
+        float: left;
+        font-family: 'Anton', sans-serif;
+        font-size: 60px;
+        color: white;}
+    #GNB #bell{float: right; margin-top: 30px; width: 24px; height: 24px;}
+    #GNB #user{float: right; margin-top: 30px; margin-right: 50px; width: 24px; height: 24px;}
+    #glass{padding-top:30px; display: inline-block;}
+    #GNB #nav .search{width: 30px; height: 30px;}
+    #search{
+        height: 24px;
+        border-top:0;
+        border-right:0;
+        border-left:0;
+        border-bottom: 1px solid #CCCCCC;
+        padding-left: 10px;
+        margin-left: 10px;
+    }
+
+    #main {
+        display: flex;
+        width:700px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 50px;
+    }
+
+    #text{
+        width: 450px;
+        border:1px solid #cccccc;
+        background-color: white;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+    }
+
+    #title{
+        width: 100%;
+        background-color: #f5f6f7;
+        padding:5px 5px;
+        box-sizing: border-box;
+        font-weight: bold;
+        border-bottom:1px solid #cccccc;
+    }
+
+
+    #content{
+        width:100%;
+        padding:13px 5px;
+        box-sizing: border-box;
+        background-color: white;
+    }
+    #content input{
+        padding-left:10px;
+        width:85%;
+        border:0;
+        font-weight:bold;
+        color:#cccccc;
+    }
+
+    #content img{
+        width:24px;
+        height:24px;
+    }
+
+    #button{
+        background-color:white;
+        display: inline;
+    }
+    #button img{width:24px; height:24px;}
+
+    #userInfo{
+        padding: 10px 0 10px 10px;
+        text-align: left;
+        display: inline-block;
+    }
+
+    #userInfo span{margin-left: 10px;}
+
+    section {
+        width: 450px;
+        background: white;
+        padding: 3px;
+        margin-bottom: 15px;
+        border: 1px solid #CCCCCC;
+    }
+
+    article {
+        width: 440px;
+        height: auto;
+        background:#cccccc;
+    }
+
+    .imgsize0{
+        width: 100%;
+        height:auto;
+    }/*바뀐부분 추가*/
+
+    article img{width: 100%;}
+
+    #coment ul{
+        list-style: none;
+        border-bottom: 1px solid #CCCCCC;
+        text-align: right;
+        margin-bottom: 5px;
+    }
+    #coment ul li{
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    #coments{
+        border-bottom: 1px solid #CCCCCC;
+        padding: 10px 0 10px 10px;
+        text-align: left;
+        display: inline-block;
+        margin-bottom: 5px;
+        width:440px;
+    }
+
+    #coments span{margin-left: 10px;}
+    #coments .coment{color: #CCCCCC;}
+
+    .comentBox{
+        border-top:0;
+        border-right:0;
+        border-left:0;
+        border-bottom: 1px solid #CCCCCC;
+        color: #CCCCCC;
+        padding-left: 10px;
+        margin-bottom: 10px;
+        width: 350px;
+        height: 24px;
+    }
+
+    .userimage{
+        width: 24px;
+        height: 24px;
+    }
+
+    #comentsubmit{
+        width: 24px;
+        height: 24px;
+    }
+
+    aside {
+        width: 250px;
+        height: 350px;
+        margin-left: 10px;
+        background: white;
+        border: 1px solid #CCCCCC;
+        padding: 0 0 10px 10px;
+    }
+
+    #dogImg{
+        background-color: #CCCCCC;
+        width: 150px;
+    }
+
+    #dogImg img{width:100%;}
+
+    #article{
+        width: 250px;
+    }
+
+    #userInfo img{
+        width: 24px;
+        height: 24px;
+    }
+
+    @media screen and (max-width: 767px){
+        aside{visibility: hidden;}
+        #logo{margin-left: 20px;}
+        #nav{width: 100%;}
+        #nav #bell{margin-right: 20px;}
+        #nav input{display: none;}
+        section, #text{margin-left: 30px;}
+    }
+    @media screen and (min-width: 768px) and (max-width: 991px){
+        aside{visibility: hidden;}
+        #logo{margin-left: 20px;}
+        #nav{width: 100%;}
+        #nav #bell{margin-right: 20px;}
+        section, #text{margin-left: 120px;}
+    }
+</style>

@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <title>PETS</title>
+    <script>
+    </script>
+</head>
+
+<body>
+    <header></header>
+    <center>
+       <div class=main>
+        <div class="left">
+            <img src="/images/phone1.png" width="450" height="450">
+        </div>
+        <div class="right">
+            <div class="right1">
+
+                <div class="tit">PETS</div>
+                <form action="/users/login" method="post">
+                    <div class="information"><input type="text" placeholder="아이디" name="id" id="id"></div>
+                    <div class="information"><input type="password" placeholder="비밀번호" name="pw" id="pw"></div>
+                    <div class="loginbtn"><button class="loginbtn1"><b>로그인</b></button></div>
+                </form>
+                <div class="text1">
+                    <div class="line"></div>
+                    <div class="or"> <b>또는 </b></div>
+                    <div class="line"></div>
+                </div>
+                <div class="text2">비밀번호를 잊으셨나요?</div>
+            </div>
+            <div class="right2">계정이 없으신가요? <a href="/users/join"><b>가입하기</b></a></div>
+
+
+
+        </div>
+        </div>
+    </center>
+    <footer></footer>
+</body>
+
+</html>
+<style>
+     
+    
+   .tit{
+        font-family: 'Anton', sans-serif;
+        font-size: 60px;
+       margin-bottom: 2px;
+    }
+    .right {
+        display: block;
+        margin: 0 0 10px;
+        padding: 10px 0;
+    }
+
+    .right1 {
+        width: 350px;
+        height: 320px;
+        background: white;
+        display: block;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+
+    .or {
+
+        height: 15px;
+    }
+
+    .line {
+        width: 73px;
+        height: 1px;
+        flex-grow: 1;
+        background-color: #efefef;
+        flex-shrink: 1;
+        margin: 10px 10px 0px 10px;
+    
+       }
+
+  
+
+    .loginbtn {
+        margin: 10px 0 10px 0;
+        
+    }
+
+    
+    .loginbtn1 {
+
+        width: 269px;
+        height: 40px;
+        background: #3897f0;
+        color: #ffffff;
+        font-size: 15px;
+        border: 0;
+        margin-top: 5px;
+        border-radius: 3px;
+        
+        
+    }
+    
+    .information,
+    .text2,
+    .right2 {
+        padding: 4px;
+
+    }
+
+    .text1 {
+        display: flex;
+        padding: 10px 20px 10px 20px;
+
+    }
+    
+
+    .right2 {
+        width: 350px;
+        height: 43px;
+        background: white;
+        padding: 20px 10px 0px 10px;
+        text-align: center;
+        color: #b9b9b9;
+    }
+
+    a{
+        text-decoration: none;
+    }
+
+
+    #id,
+    #pw {
+        width: 253px;
+        height: 38px;
+        background: #fafafa;
+        padding: 0;
+        border: 1.2px solid #d9d9d9;
+        padding-left: 15px;
+        font-size: 15px;
+        border-radius: 3px;
+    }
+
+    center {
+        
+        
+        display: flex;
+        
+        padding-top: 40px;
+        
+        
+        
+    }
+    .main{
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+    }
+
+   
+
+    
+
+    ul {
+        text-align: center;
+        width: 250px;
+        background: #ffffff;
+        border: 1px;
+        border-color: #6c6666;
+        margin-bottom: 10px;
+
+        list-style-type: none;
+        padding: 20px;
+    }
+
+    li {
+        padding: 2px;
+    }
+   
+ @media screen and (min-width:900px) { 
+     header {
+        width: auto;
+        height: 200px;
+    }
+     .left {
+        width: 390px;
+        height: 618px;
+    }
+      body {
+
+        background: #fafafa;
+
+    }
+     .right1,.right2 {
+        border: 1.2px solid #d9d9d9;
+    }
+}
+@media screen and (max-width:899px) {
+    header {
+        width: auto;
+        height: 20px;
+    }
+    .left{
+        display: none;
+    }
+    center{
+        margin-left: 10%;
+        margin-right: 10%;
+        width: auto;
+    }
+    footer{
+        display: none;
+    }
+    body{
+        background: #ffffff;
+    }
+    
+}
+</style>

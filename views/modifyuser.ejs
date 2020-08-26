@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <title>PETS</title>
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+            $('#uimage').change(function (e) {
+                var reader = new FileReader();
+                console.log(e.target.files[0]);
+                reader.readAsDataURL(e.target.files[0]);
+                reader.onload = function (f) {
+                    $('#uimg').attr('src', f.target.result);
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <div id="GNB">
+        <div id="nav">
+            <a href="/">
+                <div id="logo">PETS</div>
+            </a>
+            <a href="/"> <img src="/images/search.png" class="search" onclick="location.href='/users/search';"></a>
+            <a href="#"> <img src="/images/notification.png" id="bell"></a>
+            <a href="/users"> <img src="/images/dog2.png" id="user"></a>
+        </div>
+    </div>
+    </header>
+     <div class="top">
+        <div id="post">
+           
+            <ul>
+                <li><img src="/images/user1.png"><span>  내 정보</span></li>
+                <li><img src="/images/pet.png"><span>  애완동물 정보</span></li>
+            </ul>
+            <div id="postBoxOutLine">
+                <div id="postBoxInLine">
+                    <div id="informationBox">
+                        <div class="information">
+                            <aside class="txt">
+                                <%if(data.uimage){%>
+                                    <img id="uimg" src="/uploads/<%=data.uimage%>" onclick="$('#uimage').click();">
+                                <%}else{%>
+                                    <img id="uimg"  src="/images/usermain.png" onclick="$('#uimage').click();">
+                                <%}%>
+                            </aside><h2><%=data.uname%></h2>
+                        </div>
+                        <form method="post" action="/users/modify" enctype="multipart/form-data">
+                            <div class="information"><aside class="txt"><label for="name">이름</label></aside><input name="uname" class="inputBox" id="name" type="text" maxlength="15" value="<%=data.uname%>"></div>
+                            <div class="information"><aside class="txt"><label >비밀번호</label></aside><input name="upw" class="inputBox" type="password" maxlength="15"></div>
+                            <div class="information"><aside class="txt"><label >비밀번호확인</label></aside><input class="inputBox" type="password" maxlength="15"></div>
+                            <div class="information"><aside class="txt"><label >소개</label></aside><textarea name="utext" class="textareaBox"><%=data.utext%></textarea></div>
+                            <div class="information"><aside class="txt"><label >전화번호</label></aside><input name="unum" class="inputBox" type="text" maxlength="15" value="<%=data.unum%>"></div>
+                            <input type="file" name="photo" id="uimage">
+                            <button class="enter">수정</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+    <footer></footer>
+
+
+</body>
+
+</html>
+<style>
+   
+    label{
+        font-weight: bold;
+       
+    }
+    
+    textarea{
+        width: 352px;
+        height: 60px;
+        margin-bottom: 16px;
+        border: 1px solid #9b9b9b;
+        border-radius: 3px;
+    }
+    .inputBox{
+        width: 355px;
+        height: 32px;
+        border: 1px solid #9b9b9b;
+        border-radius: 3px;
+        margin-bottom: 16px;
+    }
+    #informationBox{
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+        
+    }
+    
+    .postBoxInLine{
+       
+        display: inline;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+    
+    
+    ul{
+        text-align: center;
+    }
+   
+    section{
+        display: block;
+    }
+    body {
+        background: #fafafa;
+        margin: 0;
+        padding: 0;
+    }
+   
+    header {
+        background: #ffffff;
+       
+    }
+
+    #head,
+    #right {
+        display: inline;
+        list-style-type: none;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    .lii {
+        display: inline;
+    }
+   
+   
+    #main {
+        display: flex;
+        width: 700px;
+        background: white;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #GNB {
+        width: 100%;
+        height: 80px;
+        text-align: center;
+        border-bottom: 1px solid #CCCCCC;
+        background-color: #3897f0;
+    }
+
+    #nav {
+        margin-top: 0px;
+        width: 900px;
+        height: 24px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    #GNB #logo {
+        float: left;
+        font-family: 'Anton', sans-serif;
+        font-size: 60px;
+        color: white;
+    }
+
+    #GNB #bell {
+        float: right;
+        margin-top: 30px;
+        width: 24px;
+        height: 24px;
+    }
+
+    #GNB #user {
+        float: right;
+        margin-top: 30px;
+        margin-right: 50px;
+        width: 24px;
+        height: 24px;
+    }
+
+    #GNB #nav .search {
+        margin-top: 24px;
+        width: 30px;
+        height: 30px;
+    }
+
+    #search {
+        margin-top: 0px;
+        height: 24px;
+        border-top: 0;
+        border-right: 0;
+        border-left: 0;
+        border-bottom: 1px solid #CCCCCC;
+        padding-left: 10px;
+        margin-left: 10px;
+    }
+    aside{
+        margin-bottom: 8px;
+    }
+
+
+    #post ul{list-style: none;}
+    #post ul li{
+        display: inline-block;
+        border-bottom: 1px solid #cccccc;
+        width: 150px;
+        height:30px;
+        font-weight: bold;
+        padding:10px 0;
+    }
+
+    #postBoxOutLine{
+        width: 100%;
+        text-align: center;
+        
+    }
+
+    #postBoxInLine{
+        
+        display: inline-block;
+        background-color: white;
+        padding:10px 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .enter {
+        text-align: center;
+        width: 100px;
+        height: 40px;
+        background: #3897f0;
+        color: #ffffff;
+        font-size: 15px;
+        border: 0;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        border-radius: 3px;
+        font-weight: bold;
+        
+        
+    }
+
+   #uimage{
+       display: none;
+   }
+
+   #uimg{
+       width: 40px;
+       height: 40px;
+       margin-top: 20px;
+   }
+
+    #postImg img{width: 200px; height: 200px; text-align:left;}
+
+    @media screen and (max-width: 767px){
+        .information{
+        display: block;
+    }
+        #postBoxInLine{
+        width:80%;
+        }
+       
+        #logo{margin-left: 20px;}
+        #nav{width: 100%;}
+        #nav #bell{margin-right: 20px;}
+        #nav input{display: none;}
+        #post ul li span{display:none;}
+        #profileImg img{width:150px; height:150px;}
+        #follow{display: none;}
+    }
+    @media screen and (min-width: 768px) and (max-width: 991px){
+        #postBoxInLine{
+        width:75%;
+        }
+       
+        .information{
+        display: flex;
+    }
+        .txt{
+           
+            width: 170px;
+            height: 26px;
+            text-align: right;
+            margin-right: 20px;
+        }
+       
+        #logo{margin-left: 20px;}
+        #nav{width: 100%;}
+        #nav #bell{margin-right: 20px;}
+        #post ul li span{display:none;}
+        #profileImg img{width:150px; height:150px;}
+        #follow{display: none;}
+    }
+    @media screen and (min-width: 992px) {
+        #postBoxInLine{
+        width:60%;
+        }
+        #post ul li{
+        text-align: center;
+    }
+        .txt{
+            width: 194px;
+            height: 26px;
+            text-align: right;
+            margin-right: 20px;
+        }
+        .information{
+        display: flex;
+    }
+        #followBox{display:none;}
+    }
+</style>

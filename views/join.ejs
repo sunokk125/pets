@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+     <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <title>PETS</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+
+        var pwCheckFlag = false;
+        var emailCheckFlag = false;
+
+        function checkEmail() {
+            var email = $('#id').val();
+            console.log(email);
+
+            $.ajax({
+                type : 'POST',
+                dataType : 'json',
+                url : '/users/checkId',
+                data : {"id" : email},
+                success : function (data) {
+                    if (email && data.check) {
+                        $('#idCheckImg').attr("src", "/images/ok.png");
+                        emailCheckFlag = true;
+                    } else {
+                        $('#idCheckImg').attr("src", "/images/fail.png");
+                        emailCheckFlag = false;
+                    }
+                }
+            });
+        }
+
+        function checkPw() {
+            var pw = $('#pw').val();
+            var pwCheck = $('#pwcheck').val();
+            if(pw == pwCheck && pw){
+                $('#pwCheckImg').attr("src", "/images/ok.png");
+                pwCheckFlag = true;
+            }else{
+                $('#pwCheckImg').attr("src", "/images/fail.png");
+                pwCheckFlag = false;
+            }
+        }
+
+        function submitForm() {
+            if(pwCheckFlag && emailCheckFlag && $('#name').val()){
+                $('#loginForm').submit();
+            }else{
+                alert("입럭하신 정보를 확인해주세요.");
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header></header>
+    <center>
+        <div class="main">
+            <div>
+                <div class="tit">PETS</div>
+            </div>
+
+            <div><button class="loginbtn1" ><img class="face "src="/images/facebook.png" width="16" height="16"><b id="ma">Facebook으로 로그인</b></button></div>
+            <div class="text1">
+                <div class="line"></div>
+                <div class="or"> <b>또는 </b></div>
+                <div class="line"></div>
+            </div>
+            <form action="/users/join" method="post" id="loginForm">
+                <div class="tehe"><input class="textb" type="text" placeholder="이메일 주소" name="id" id="id" onkeyup="checkEmail()" style="margin-left: 30px;"><img class="checkImg" id="idCheckImg" src="/images/fail.png"></div>
+                <div class="tehe"><input class="textb" type="text" placeholder="사용자 이름" name="name" id="name"></div>
+                <div class="tehe"><input class="textb" type="password" placeholder="비밀번호" name="pw" id="pw" onkeyup="checkPw()"></div>
+                <div class="tehe"><input class="textb" type="password" placeholder="비밀번호확인" id="pwcheck" onkeyup="checkPw()" style="margin-left: 30px;"><img class="checkImg" id="pwCheckImg" src="/images/fail.png"></div>
+                <div class="tehe"><button type="button" class="loginbtn2" onclick="submitForm()"><b>가입</b></button></div>
+                <div class="tehe1">가입하면 PETS의 <b>약관</b>, <b>데이터 정책</b>및 <b>쿠키 정책</b>에 동의하게 됩니다.</div>
+            </form>
+        </div>
+        <div class="tehe2">계정이 있으신가요? <a href="join.html"><b class="logintext">로그인</b></a></div>
+    </center>
+    <footer></footer>
+</body>
+
+</html>
+<style>
+    .tit{
+        font-family: 'Anton', sans-serif;
+        font-size: 60px;
+       margin-bottom: 2px;
+    }
+
+    .checkImg{
+        width: 36px;
+        height: 36px;
+    }
+    
+    .face{
+        margin-top: 5px;
+        margin-right: 10px;
+    }
+    body {
+        background: #fafafa;
+    }
+
+    .main {
+        text-align: center;
+        background: #ffffff;
+        border: 1px;
+        border-color: #6c6666;
+        margin-bottom: 10px;
+        list-style-type: none;
+        padding: 20px;
+
+    }
+
+
+    .textb {
+        width: 258px;
+        height: 36px;
+        background: #fafafa;
+        padding: 0;
+        border: 1.2px solid #d9d9d9;
+        padding-left: 15px;
+        font-size: 12px;
+        border-radius: 3px;
+    }
+
+    .loginbtn1,.loginbtn2 {
+
+        width: 276px;
+        background: #3897f0;
+        color: #ffffff;
+        font-size: 15px;
+        border: 0;
+        height: 32px;
+        margin-top: 5px;
+        margin-bottom: 10px;         
+        border-radius: 3px;
+        
+        
+    }
+    .loginbtn1{
+       padding-bottom: 10px;
+    }
+
+    .or {
+        color: #939393;
+        height: 15px;
+    }
+
+    .line {
+        width: 73px;
+        height: 1px;
+        flex-grow: 1;
+        background-color: #efefef;
+        flex-shrink: 1;
+        margin: 10px 10px 0px 10px;
+
+    }
+
+    .text1 {
+        display: flex;
+        padding: 10px 20px 10px 20px;
+        margin-bottom: 10px;
+    }
+
+    .tehe {
+        margin-bottom: 5px;
+    }
+
+    .tehe1 {
+        color: #939393;
+        margin: 10px 35px;
+
+    }
+
+    .tehe2 {
+        text-align: center;
+        background: #ffffff;
+        border: 1px;
+        border-color: #6c6666;
+        margin-bottom: 10px;
+        list-style-type: none;
+        padding: 20px;
+        text-align: center;
+
+    }
+
+    .logintext {
+        color: #3897f0;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    @media screen and (min-width:900px) {
+        .main {
+            width: 330px;
+            height: 465px;
+        }
+
+        .tehe2 {
+            width: 330px;
+            height: 22px;
+        }
+        .main,.tehe2{
+            border: 1.2px solid #d9d9d9;
+        }
+        
+    }
+
+    @media screen and (max-width:899px) {
+        body {
+            background: #ffffff;
+        }
+    }
+</style>
